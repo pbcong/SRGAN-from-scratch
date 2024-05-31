@@ -36,7 +36,7 @@ def train_fn(loader, disc, gen, opt_gen, opt_disc, mse, bce, vgg_loss):
 
         # Train Generator: min log(1 - D(G(z))) <-> max log(D(G(z))
         disc_fake = disc(fake)
-        # l2_loss = mse(fake, high_res)
+        #l2_loss = mse(fake, high_res)
         adversarial_loss = 1e-3 * bce(disc_fake, torch.ones_like(disc_fake))
         loss_for_vgg = 0.006 * vgg_loss(fake, high_res)
         gen_loss = loss_for_vgg + adversarial_loss
@@ -61,9 +61,9 @@ def main():
     gen = Generator(in_channels=3).to(config.DEVICE)
     disc = Discriminator(in_channels=3).to(config.DEVICE)
     opt_gen = optim.Adam(
-        gen.parameters(), lr=config.LEARNING_RATE, betas=(0.9, 0.999))
+        gen.parameters(), lr=config.LEARNING_RATE, betas=(0.9, 0.9))
     opt_disc = optim.Adam(
-        disc.parameters(), lr=config.LEARNING_RATE, betas=(0.9, 0.999))
+        disc.parameters(), lr=config.LEARNING_RATE, betas=(0.9, 0.9))
     mse = nn.MSELoss()
     bce = nn.BCEWithLogitsLoss()
     vgg_loss = VGGLoss()
